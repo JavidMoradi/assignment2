@@ -167,9 +167,7 @@ function initNodes(Id) {
             m = mult(m, rotate(theta[rightLowerLegId], 1, 0, 0));
             figure[rightLowerLegId] = createNode(m, rightLowerLeg, null, null);
             break;
-
     }
-
 }
 
 function traverse(Id) {
@@ -197,7 +195,6 @@ function head() {
 }
 
 function leftUpperArm() {
-
     instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperArmHeight, 0.0));
     instanceMatrix = mult(instanceMatrix, scale4(upperArmWidth, upperArmHeight, upperArmWidth));
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
@@ -213,7 +210,6 @@ function leftLowerArm() {
 }
 
 function rightUpperArm() {
-
     instanceMatrix = mult(modelViewMatrix, translate(0.0, 0.5 * upperArmHeight, 0.0));
     instanceMatrix = mult(instanceMatrix, scale4(upperArmWidth, upperArmHeight, upperArmWidth));
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(instanceMatrix));
