@@ -1,0 +1,19 @@
+#gl-canvas {
+    display: block;
+    margin: 0 auto;
+}
+
+/* https://stackoverflow.com/questions/21590343/how-to-display-a-gif-fullscreen-for-a-webpage-background */
+body {
+    background-image: url('https://64.media.tumblr.com/60721f23d65f6f5cb82c07fefde68713/tumblr_n1dbbe4Ksd1rs0nhyo1_500.gifv');
+    background-size: cover;
+    height: 100vh;
+    padding:0;
+    margin:0;
+}
+
+div {
+    font-size: medium;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(123, 255, 0);
+}

@@ -61,7 +61,7 @@ var numNodes = 15;
 var numAngles = 15; // bridge is excluded
 var angle = 0;
 
-var theta = [90, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0, 90, 180, 0, 180, 0];
+var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0, 90, 180, 0, 180, 0];
 
 // var numVertices = 24;
 var numVertices = 36;
@@ -145,14 +145,14 @@ function initNodes(Id) {
 
         case rightUpperLegId:
 
-            // m = translate(torsoWidth + upperLegWidth, 0.1 * upperLegHeight, 0.0);
-            // m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
-            // figure[rightUpperLegId] = createNode(m, rightUpperLeg, null, rightLowerLegId);
-            // break;
             m = translate(torsoWidth + upperLegWidth, 0.1 * upperLegHeight, 0.0);
             m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
-            figure[rightUpperLegId] = createNode(m, rightUpperLeg, bridgeId, rightLowerLegId);
+            figure[rightUpperLegId] = createNode(m, rightUpperLeg, null, rightLowerLegId);
             break;
+            // m = translate(torsoWidth + upperLegWidth, 0.1 * upperLegHeight, 0.0);
+            // m = mult(m, rotate(theta[rightUpperLegId], 1, 0, 0));
+            // figure[rightUpperLegId] = createNode(m, rightUpperLeg, bridgeId, rightLowerLegId);
+            // break;
 
         case leftLowerArmId:
 
@@ -354,7 +354,7 @@ window.onload = function init() {
     if (!gl) { alert("WebGL isn't available"); }
 
     gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    gl.clearColor(0.0, 0.4, 0.8, 1.0);
 
     //
     //  Load shaders and initialize attribute buffers
