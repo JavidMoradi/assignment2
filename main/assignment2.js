@@ -61,7 +61,7 @@ var numNodes = 15;
 var numAngles = 15; // bridge is excluded
 var angle = 0;
 
-var theta = [0, 0, 0, 0, 0, 0, 180, 0, 180, 0, 0, 90, 180, 0, 180, 0];
+var theta = [-160, 0, 170, -20, 170, -20, 180, 0, 180, 0, 0, 90, 180, 0, 180, 0];
 
 // var numVertices = 24;
 var numVertices = 36;
@@ -77,6 +77,11 @@ var vBuffer;
 var modelViewLoc;
 
 var pointsArray = [];
+
+var flag = false;
+var armFlag = false;
+
+var saveTheta = [];
 
 //-------------------------------------------
 function scale4(a, b, c) {
@@ -376,7 +381,6 @@ window.onload = function init() {
     cube();
 
     vBuffer = gl.createBuffer();
-
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
 
@@ -431,15 +435,148 @@ window.onload = function init() {
         initNodes(head2Id);
     };
 
+    document.getElementById("headButton").addEventListener("click", function() {
+        flag = !flag;
+        console.log(flag);
+    });
+    document.getElementById("armButton").addEventListener("click", function() {
+        armFlag = !armFlag;
+    });
+    document.getElementById("save").addEventListener("click", function() {
+        saveTheta = [];
+        for (let i = 0; i < theta.length; i++) {
+            saveTheta.push(theta[i])
+        }
+        console.log(saveTheta);
+    });
+    document.getElementById("load").addEventListener("click", function() {
+        console.log("theta before: " + theta);
+        theta = saveTheta;
+        console.log("theta after" + theta);
+        initNodes(torsoId);
+        initNodes(head1Id);
+        initNodes(leftUpperArmId);
+        initNodes(leftLowerArmId);
+        initNodes(rightUpperArmId);
+        initNodes(rightLowerArmId);
+        initNodes(leftUpperLegId);
+        initNodes(leftLowerLegId);
+        initNodes(rightUpperLegId);
+        initNodes(rightLowerLegId);
+        initNodes(head2Id);
+    });
+
     for (i = 0; i < numNodes; i++)
         initNodes(i);
 
     render();
 }
 
+var up = true;
+var down = false;
+
+var lowerPart = false;
+
+var left = true;
+var right = false;
+var otherHand = false;
+var l = true;
+var r = false;
 
 var render = function () {
     gl.clear(gl.COLOR_BUFFER_BIT);
+    if (flag) {
+        if (up) {
+            theta[head1Id] -= 1;
+            initNodes(head1Id);
+            if (theta[head1Id] == -30) {
+                up = false;
+                down = true;
+            }
+        }
+        else if (down) {
+            theta[head1Id] += 1;
+            initNodes(head1Id);
+            if (theta[head1Id] == 0) {
+                up = true;
+                down = false;
+            }
+        }
+    }
+
+    if (armFlag) {
+        if (theta[leftUpperArmId] % 360 != 160) {
+            if (theta[leftUpperArmId] > 160) {
+                theta[leftUpperArmId] -= 1;
+                initNodes(leftUpperArmId);
+            } else {
+                theta[leftUpperArmId] = theta[leftUpperArmId] % 220;
+                theta[leftUpperArmId] += 1;
+                initNodes(leftUpperArmId);
+            }
+        }
+        if (theta[rightUpperArmId] % 360 != 160) {
+            if (theta[rightUpperArmId] > 160) {
+                theta[rightUpperArmId] -= 1;
+                initNodes(rightUpperArmId);
+            } else {
+                theta[rightUpperArmId] = theta[rightUpperArmId] % 220;
+                theta[rightUpperArmId] += 1;
+                initNodes(rightUpperArmId);
+            }
+        }
+
+        if ((theta[rightUpperArmId] % 360) == 160 && (theta[leftUpperArmId] % 360) == 160) {
+            lowerPart = true;
+            theta[leftLowerArmId] = theta[leftLowerArmId] % 360;
+        }
+
+        if (lowerPart) {
+            if (!otherHand) {
+                if (left && theta[leftLowerArmId] >= -150) {
+                    if (theta[leftLowerArmId] == -150) {
+                        right = true;
+                        left = false;
+                    }
+
+                    theta[leftLowerArmId] -= 1;
+                    initNodes(leftLowerArmId);
+                }
+                if (right && theta[leftLowerArmId] <= 0) {
+                    if (theta[leftLowerArmId] == 0) {
+                        left = true;
+                        right = false;
+                        otherHand = true;
+                    }
+                    
+                    theta[leftLowerArmId] += 1;
+                    initNodes(leftLowerArmId);
+                }
+            }
+            else if (otherHand) {
+                if (l && theta[rightLowerArmId] >= -150) {
+                    if (theta[rightLowerArmId] == -150) {
+                        r = true;
+                        l = false;
+                    }
+
+                    theta[rightLowerArmId] -= 1;
+                    initNodes(rightLowerArmId);
+                }
+                if (r && theta[rightLowerArmId] <= 0) {
+                    if (theta[rightLowerArmId] == 0) {
+                        l = true;
+                        r = false;
+                        otherHand = false;
+                    }
+                    
+                    theta[rightLowerArmId] += 1;
+                    initNodes(rightLowerArmId);
+                }
+            }
+        }
+    }
+
     traverse(torsoId);
     requestAnimFrame(render);
 }

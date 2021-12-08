@@ -5,7 +5,7 @@
 
 <script id="vertex-shader" type="x-shader/x-vertex">
 
-attribute  vec4 vPosition;
+attribute vec4 vPosition;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
@@ -33,37 +33,45 @@ void main()
 
 <div id="slider0">
     torso angle <input id="slide" type="range" min="-180" max="180" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider10">
-    head2 angle <input id="slide" type="range" min="-90" max="90" step="1" value="0" />
-</div><br />
+    head angle left-right <input id="slide" type="range" min="-90" max="90" step="1" value="0" />
+</div><br>
 <div id="slider1">
-    head1 angle <input id="slide" type="range" min="-30" max="30" step="1" value="0" />
-</div><br />
+    head angle up-down <input id="slide" type="range" min="-30" max="30" step="1" value="0" />
+</div><br>
 <div id="slider2">
     left upper arm angle <input id="slide" type="range" min="0" max="220" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider3">
     left lower arm angle <input id="slide" type="range" min="-150" max="0" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider4">
     right upper arm angle <input id="slide" type="range" min="0" max="220" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider5">
     right lower arm angle <input id="slide" type="range" min="-150" max="0" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider6">
     left upper leg angle <input id="slide" type="range" min="90" max="250" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider7">
     left lower leg angle <input id="slide" type="range" min="0" max="150" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider8">
     right upper leg angle <input id="slide" type="range" min="90" max="250" step="1" value="0" />
-</div><br />
+</div><br>
 <div id="slider9">
     right lower leg angle <input id="slide" type="range" min="0" max="150" step="1" value="0" />
-</div><br />
+</div><br>
+<div>
+    <button id="headButton" type="button">Head Animation</button>
+    <button id="armButton" type="button">Train those biceps!</button>
+</div><br>
+<div>
+    <button id="save" type="button">Save</button>
+    <button id="load" type="button">Load</button>
+</div>
 
 <body>
     <canvas id="gl-canvas" width="512" height="512">
