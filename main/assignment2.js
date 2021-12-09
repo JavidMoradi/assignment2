@@ -97,6 +97,7 @@ var pointsArray = [];
 
 var flag = false;
 var armFlag = false;
+var toeFlag = false;
 
 var saveTheta = [];
 
@@ -487,6 +488,9 @@ window.onload = function init() {
         initNodes(behindRightUpperLegId);
         initNodes(bridgeId);
     });
+    document.getElementById("toeButton").addEventListener("click", function() {
+        toeFlag = !toeFlag;
+    });
 
     for (i = 0; i < numNodes; i++)
         initNodes(i);
@@ -504,6 +508,14 @@ var right = false;
 var otherHand = false;
 var l = true;
 var r = false;
+
+var toePart = false;
+var secondToe = false;
+var up = true;
+var down = false;
+var u = true;
+var d = false;
+var cond = false;
 
 var render = function () {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -595,6 +607,91 @@ var render = function () {
                     
                     theta[rightLowerArmId] += 1;
                     initNodes(rightLowerArmId);
+                }
+            }
+        }
+    }
+
+    if (toeFlag) {
+        if (!cond) {
+            if (theta[leftUpperLegId] % 360 != 180) {
+                if (theta[leftUpperLegId] > 180) {
+                    theta[leftUpperLegId] -= 1;
+                    initNodes(leftUpperLegId);
+                } else {
+                    theta[leftUpperLegId] = theta[leftUpperLegId] % 250;
+                    theta[leftUpperLegId] += 1;
+                    initNodes(leftUpperLegId);
+                }
+            }
+            if (theta[rightUpperLegId] % 360 != 180) {
+                if (theta[rightUpperLegId] > 180) {
+                    theta[rightUpperLegId] -= 1;
+                    initNodes(rightUpperLegId);
+                } else {
+                    theta[rightUpperLegId] = theta[rightUpperLegId] % 250;
+                    theta[rightUpperLegId] += 1;
+                    initNodes(rightUpperLegId);
+                }
+            }
+        }
+
+        if ((theta[rightUpperLegId] % 360) == 180 && (theta[leftUpperLegId] % 360) == 180) {
+            toePart = true;
+            cond = true;
+        }
+
+        if (toePart) {
+            if (!secondToe) {
+                if (up && theta[leftLowerLegId] <= 150) {
+                    if (theta[leftLowerLegId] == 150) {
+                        up = false;
+                        down = true;
+                    }
+
+                    theta[leftLowerLegId] += 1;
+                    theta[leftUpperLegId] -= 0.5;
+                    initNodes(leftLowerLegId);
+                    initNodes(leftUpperLegId);
+                    console.log(theta[leftLowerLegId]);
+                    console.log(theta[leftUpperLegId]);
+                }
+                if (down && theta[leftLowerLegId] >= 0) {
+                    if (theta[leftLowerLegId] == 0) {
+                        up = true;
+                        down = false;
+                        secondToe = true;
+                    }
+                    
+                    theta[leftLowerLegId] -= 1;
+                    theta[leftUpperLegId] += 0.5;
+                    initNodes(leftLowerLegId);
+                    initNodes(leftUpperLegId);
+                }
+            }
+            else if (secondToe) {
+                if (u && theta[rightLowerLegId] <= 150) {
+                    if (theta[rightLowerLegId] == 150) {
+                        u = false;
+                        d = true;
+                    }
+
+                    theta[rightLowerLegId] += 1;
+                    theta[rightUpperLegId] -= 0.5;
+                    initNodes(rightUpperLegId);
+                    initNodes(rightLowerLegId);
+                }
+                if (d && theta[rightLowerLegId] >= 0) {
+                    if (theta[rightLowerLegId] == 0) {
+                        u = true;
+                        d = false;
+                        secondToe = false;
+                    }
+                    
+                    theta[rightLowerLegId] -= 1;
+                    theta[rightUpperLegId] += 0.5;
+                    initNodes(rightUpperLegId);
+                    initNodes(rightLowerLegId);
                 }
             }
         }
