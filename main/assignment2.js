@@ -498,8 +498,8 @@ window.onload = function init() {
     render();
 }
 
-var up = true;
-var down = false;
+var headup = true;
+var headdown = false;
 
 var lowerPart = false;
 
@@ -521,20 +521,20 @@ var render = function () {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     if (flag) {
-        if (up) {
+        if (headup) {
             theta[head1Id] -= 1;
             initNodes(head1Id);
             if (theta[head1Id] == -30) {
-                up = false;
-                down = true;
+                headup = false;
+                headdown = true;
             }
         }
-        else if (down) {
+        else if (headdown) {
             theta[head1Id] += 1;
             initNodes(head1Id);
             if (theta[head1Id] == 0) {
-                up = true;
-                down = false;
+                headup = true;
+                headdown = false;
             }
         }
     }
