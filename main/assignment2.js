@@ -511,8 +511,8 @@ var r = false;
 
 var toePart = false;
 var secondToe = false;
-var up = true;
-var down = false;
+var up = false;
+var down = true;
 var u = true;
 var d = false;
 var cond = false;
@@ -634,11 +634,22 @@ var render = function () {
                     initNodes(rightUpperLegId);
                 }
             }
+            if (theta[leftLowerLegId] != 0) {
+                theta[leftLowerLegId] -= 1;
+                initNodes(leftLowerLegId);
+            }
+            if (theta[rightLowerLegId] != 0) {
+                theta[rightLowerLegId] -= 1;
+                initNodes(rightLowerLegId);
+            }
         }
 
-        if ((theta[rightUpperLegId] % 360) == 180 && (theta[leftUpperLegId] % 360) == 180) {
+        if ((theta[rightUpperLegId] % 360) == 180 && (theta[leftUpperLegId] % 360) == 180 && 
+            theta[rightLowerLegId] == 0 && theta[leftLowerLegId] == 0) {
             toePart = true;
             cond = true;
+            theta[leftLowerLegId] %= 150;
+            theta[rightLowerLegId] %= 150;
         }
 
         if (toePart) {
